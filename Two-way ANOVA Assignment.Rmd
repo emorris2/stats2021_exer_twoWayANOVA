@@ -29,7 +29,7 @@ for (i in packages){
 }
 ```
 
-```{r}
+```{r eval=FALSE}
 # load each package into memory so it can be used in the script
 for (i in packages){
   library(i,character.only=TRUE)
@@ -48,11 +48,11 @@ Nice example: https://sites.utexas.edu/sos/guided/inferential/numeric/glm/
 
 The rio package works for importing several different types of data files. We're going to use it in this class. There are other packages which can be used to open datasets in R. You can see several options by clicking on the Import Dataset menu under the Environment tab in RStudio. (For a csv file like we have this week we'd use either From Text(base) or From Text (readr). Try it out to see the menu dialog.)
 
-```{r}
+```{r eval=FALSE}
 # Using the file.choose() command allows you to select a file to import from another folder.
 dataset <- rio::import(file.choose())
 # This command will allow us to import a file included in our project folder.
-# dataset <- rio::import("Album Sales.sav")
+# dataset <- rio::import("Goggles.sav")
 ```
 
 ## Get R code from Jamovi output
@@ -70,7 +70,7 @@ Many linear models are calculated in R using the lm() function. We'll look at ho
 
 #### Visualization
 
-```{r}
+```{r eval=FALSE}
 # plots for outcome split by groups
 ggplot(dataset, aes(x = Attractiveness))+
   geom_histogram(binwidth = 1, color = "black", fill = "white")+
@@ -81,7 +81,7 @@ ggplot(dataset, aes(x = Attractiveness))+
   facet_grid(Alcohol ~ .)
 ```
 
-```{r}
+```{r eval=FALSE}
 # Make a factor for the box plot
 dataset <- dataset %>% mutate(FaceType_f = as.factor(FaceType))
 levels(dataset$FaceType_f)
@@ -91,7 +91,7 @@ levels(dataset$Alcohol_f)
 ```
 
 
-```{r}
+```{r eval=FALSE}
 ggplot(dataset, aes(x = FaceType_f, y = Attractiveness)) +
   geom_boxplot()
 
@@ -107,14 +107,14 @@ If a categorical variable is designated as a factor in R, the lm() function will
 
 If we include independent variables in the model using the plus (+) sign, each variable in the equation will be included in the model. If we include independent variables in the model using the multiplication (*) sign, each variable will be included in the model, but interaction terms between the variables will also be included.
 
-```{r}
+```{r eval=FALSE}
 model <- lm(formula = Attractiveness ~ FaceType_f*Alcohol_f, data = dataset)
 model
 ```
 
 #### Model assessment
 
-```{r}
+```{r eval=FALSE}
 summary(model)
 ```
 
@@ -122,7 +122,7 @@ summary(model)
 
 Compare the output from the lm() function with the output from the function in the jmv package.
 
-```{r}
+```{r eval=FALSE}
 jmv::ANOVA(
     formula = Attractiveness ~ FaceType + Alcohol + FaceType:Alcohol,
     data = dataset,
